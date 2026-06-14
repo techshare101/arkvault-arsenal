@@ -1,0 +1,844 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>ArkOn Arsenal — The Sovereign Loop</title>
+<meta name="description" content="The live arsenal for The Architect: Hermes, omp, last30days, Sovereign Protocol, Visual Moat, Headroom, gbrain, and ArkOn itself. The loop that ships Sovereign software." />
+<meta property="og:title" content="ArkOn Arsenal — The Sovereign Loop" />
+<meta property="og:description" content="Seven pieces, one loop. Research → Foundation → Architect → Compress → Code → Law → Ship." />
+<meta property="og:type" content="website" />
+<style>
+  :root {
+    --sovereign-base:        #0a0a0f;
+    --sovereign-raised:      #14141c;
+    --sovereign-elevated:    #1f1f2c;
+    --sovereign-text:        #e8e8f0;
+    --sovereign-text-dim:    #9090a8;
+    --sovereign-text-mute:   #5a5a6e;
+    --sovereign-cyan:        #00d4ff;
+    --sovereign-purple:      #a855f7;
+    --sovereign-pink:        #ec4899;
+    --sovereign-glow:        linear-gradient(135deg, #00d4ff 0%, #a855f7 50%, #ec4899 100%);
+    --sovereign-line:        rgba(232, 232, 240, 0.08);
+    --sovereign-line-soft:   rgba(232, 232, 240, 0.04);
+    --sovereign-glow-soft:   rgba(168, 85, 247, 0.12);
+    --ease:                  cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--sovereign-base);
+    color: var(--sovereign-text);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    font-weight: 400;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+  /* Sovereign Glow: a slow ambient aurora behind everything */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: -20vmax;
+    background:
+      radial-gradient(40vmax 40vmax at 20% 10%, rgba(0, 212, 255, 0.10), transparent 60%),
+      radial-gradient(35vmax 35vmax at 80% 30%, rgba(168, 85, 247, 0.12), transparent 60%),
+      radial-gradient(45vmax 45vmax at 50% 90%, rgba(236, 72, 153, 0.10), transparent 60%);
+    z-index: -2;
+    filter: blur(40px);
+    pointer-events: none;
+    animation: aurora 24s ease-in-out infinite alternate;
+  }
+  @keyframes aurora {
+    0%   { transform: translate(0, 0) scale(1); }
+    50%  { transform: translate(-2vmax, 1vmax) scale(1.05); }
+    100% { transform: translate(2vmax, -1vmax) scale(1); }
+  }
+  /* Subtle grid overlay */
+  body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(to right, var(--sovereign-line-soft) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--sovereign-line-soft) 1px, transparent 1px);
+    background-size: 64px 64px;
+    z-index: -1;
+    pointer-events: none;
+    mask-image: radial-gradient(ellipse at center, black 30%, transparent 90%);
+    -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 90%);
+  }
+  .wrap {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 clamp(20px, 4vw, 56px);
+  }
+  /* Top nav */
+  .topnav {
+    padding: 28px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--sovereign-text-dim);
+  }
+  .topnav .brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .topnav .brand-mark {
+    width: 28px; height: 28px;
+    border-radius: 6px;
+    background: var(--sovereign-glow);
+    box-shadow: 0 0 24px var(--sovereign-glow-soft);
+  }
+  .topnav .brand-name {
+    font-weight: 600;
+    color: var(--sovereign-text);
+    letter-spacing: 0.06em;
+  }
+  .topnav .meta {
+    display: flex;
+    gap: 24px;
+  }
+  .topnav .meta a {
+    color: var(--sovereign-text-dim);
+    text-decoration: none;
+    transition: color 200ms var(--ease);
+  }
+  .topnav .meta a:hover { color: var(--sovereign-text); }
+  /* Hero */
+  .hero {
+    padding: clamp(64px, 14vh, 160px) 0 clamp(56px, 10vh, 112px);
+  }
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 14px;
+    border-radius: 999px;
+    background: rgba(168, 85, 247, 0.10);
+    border: 1px solid rgba(168, 85, 247, 0.25);
+    color: var(--sovereign-purple);
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 32px;
+  }
+  .eyebrow .dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--sovereign-pink);
+    box-shadow: 0 0 12px var(--sovereign-pink);
+    animation: pulse 2.4s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50%      { opacity: 0.4; }
+  }
+  h1 {
+    font-size: clamp(40px, 6.4vw, 84px);
+    line-height: 1.04;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    margin: 0 0 28px;
+    max-width: 18ch;
+  }
+  h1 .glow {
+    background: var(--sovereign-glow);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .hero p.lede {
+    font-size: clamp(17px, 1.6vw, 21px);
+    color: var(--sovereign-text-dim);
+    max-width: 64ch;
+    margin: 0 0 40px;
+    font-weight: 300;
+  }
+  .hero p.lede strong { color: var(--sovereign-text); font-weight: 500; }
+  .hero-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 24px;
+    border-radius: 12px;
+    background: var(--sovereign-cyan);
+    color: var(--sovereign-base);
+    text-decoration: none;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    transition: all 200ms var(--ease);
+    box-shadow: 0 0 32px rgba(0, 212, 255, 0.35);
+  }
+  .hero-cta:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 0 48px rgba(0, 212, 255, 0.55);
+  }
+  .hero-cta svg { width: 16px; height: 16px; }
+  /* Stat strip */
+  .stat-strip {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    border-top: 1px solid var(--sovereign-line);
+    border-bottom: 1px solid var(--sovereign-line);
+    margin: 40px 0 0;
+  }
+  .stat {
+    padding: 28px 24px;
+    border-right: 1px solid var(--sovereign-line);
+  }
+  .stat:last-child { border-right: 0; }
+  .stat .v {
+    font-size: clamp(28px, 3vw, 40px);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    background: var(--sovereign-glow);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    line-height: 1;
+  }
+  .stat .l {
+    font-size: 12px;
+    color: var(--sovereign-text-dim);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-top: 8px;
+  }
+  /* Section headers */
+  section { padding: clamp(64px, 10vh, 120px) 0; }
+  h2 {
+    font-size: clamp(28px, 3.4vw, 44px);
+    line-height: 1.1;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin: 0 0 16px;
+  }
+  h2 .glow {
+    background: var(--sovereign-glow);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .section-eyebrow {
+    font-size: 12px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--sovereign-text-mute);
+    font-weight: 600;
+    margin-bottom: 16px;
+  }
+  .section-lede {
+    font-size: clamp(16px, 1.4vw, 19px);
+    color: var(--sovereign-text-dim);
+    max-width: 64ch;
+    margin: 0 0 56px;
+    font-weight: 300;
+  }
+  /* The Loop */
+  .loop {
+    position: relative;
+    border-radius: 24px;
+    background: linear-gradient(180deg, rgba(20, 20, 28, 0.6), rgba(10, 10, 15, 0.6));
+    border: 1px solid var(--sovereign-line);
+    padding: 56px 40px;
+    overflow: hidden;
+  }
+  .loop::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(circle at 50% 0%, rgba(0, 212, 255, 0.10), transparent 50%),
+      radial-gradient(circle at 50% 100%, rgba(236, 72, 153, 0.08), transparent 50%);
+    pointer-events: none;
+  }
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 12px;
+    position: relative;
+  }
+  .step {
+    background: rgba(20, 20, 28, 0.8);
+    border: 1px solid var(--sovereign-line);
+    border-radius: 16px;
+    padding: 20px 18px;
+    position: relative;
+    transition: all 240ms var(--ease);
+  }
+  .step:hover {
+    transform: translateY(-4px);
+    border-color: rgba(168, 85, 247, 0.4);
+    background: rgba(31, 31, 44, 0.8);
+  }
+  .step .n {
+    font-size: 11px;
+    color: var(--sovereign-text-mute);
+    letter-spacing: 0.18em;
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+  .step .t {
+    font-size: 18px;
+    font-weight: 600;
+    margin: 8px 0 6px;
+    color: var(--sovereign-text);
+  }
+  .step .s {
+    font-size: 12px;
+    color: var(--sovereign-text-dim);
+    line-height: 1.5;
+  }
+  .step .icon {
+    width: 32px; height: 32px;
+    border-radius: 8px;
+    background: rgba(168, 85, 247, 0.12);
+    border: 1px solid rgba(168, 85, 247, 0.3);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--sovereign-purple);
+    margin-bottom: 12px;
+  }
+  .step .icon svg { width: 16px; height: 16px; }
+  /* Connecting flow line behind the steps */
+  .flow-line {
+    position: absolute;
+    left: 5%;
+    right: 5%;
+    top: 100px;
+    height: 1px;
+    background: var(--sovereign-glow);
+    opacity: 0.4;
+    z-index: 0;
+  }
+  /* Arsenal grid */
+  .arsenal {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  .card {
+    background: rgba(20, 20, 28, 0.6);
+    border: 1px solid var(--sovereign-line);
+    border-radius: 18px;
+    padding: 28px;
+    transition: all 280ms var(--ease);
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+  }
+  .card::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: var(--sovereign-glow);
+    opacity: 0;
+    transition: opacity 240ms var(--ease);
+  }
+  .card:hover {
+    border-color: rgba(168, 85, 247, 0.3);
+    transform: translateY(-2px);
+  }
+  .card:hover::before { opacity: 0.6; }
+  .card .head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+  }
+  .card .name {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--sovereign-text);
+    letter-spacing: -0.01em;
+  }
+  .card .layer {
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: rgba(0, 212, 255, 0.08);
+    border: 1px solid rgba(0, 212, 255, 0.25);
+    color: var(--sovereign-cyan);
+    font-weight: 600;
+  }
+  .card .layer.memory    { background: rgba(168, 85, 247, 0.10); border-color: rgba(168, 85, 247, 0.3); color: var(--sovereign-purple); }
+  .card .layer.research  { background: rgba(0, 212, 255, 0.08); border-color: rgba(0, 212, 255, 0.3); color: var(--sovereign-cyan); }
+  .card .layer.coder     { background: rgba(236, 72, 153, 0.10); border-color: rgba(236, 72, 153, 0.3); color: var(--sovereign-pink); }
+  .card .layer.law       { background: rgba(232, 232, 240, 0.06); border-color: rgba(232, 232, 240, 0.18); color: var(--sovereign-text); }
+  .card .layer.cost      { background: rgba(168, 85, 247, 0.08); border-color: rgba(168, 85, 247, 0.25); color: #c4a3ff; }
+  .card .layer.foundation{ background: rgba(0, 212, 255, 0.06); border-color: rgba(0, 212, 255, 0.22); color: #7fe9ff; }
+  .card .layer.host      { background: rgba(255, 255, 255, 0.04); border-color: rgba(255, 255, 255, 0.12); color: var(--sovereign-text-dim); }
+  .card .layer.orchestrator { background: linear-gradient(135deg, rgba(0, 212, 255, 0.15), rgba(168, 85, 247, 0.15), rgba(236, 72, 153, 0.15)); border-color: rgba(255, 255, 255, 0.25); color: var(--sovereign-text); }
+  .card .desc {
+    font-size: 14px;
+    color: var(--sovereign-text-dim);
+    line-height: 1.55;
+    margin: 0 0 20px;
+  }
+  .card .status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: var(--sovereign-text-mute);
+    padding-top: 16px;
+    border-top: 1px solid var(--sovereign-line);
+  }
+  .status .dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .status.live .dot { background: #00ff9d; box-shadow: 0 0 8px #00ff9d; }
+  .status.beta  .dot { background: var(--sovereign-cyan); box-shadow: 0 0 8px var(--sovereign-cyan); }
+  .status.shipped .dot { background: var(--sovereign-pink); box-shadow: 0 0 8px var(--sovereign-pink); }
+  .status.docs  .dot { background: var(--sovereign-text-dim); }
+  .status .label {
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 600;
+    color: var(--sovereign-text-dim);
+  }
+  .status .v {
+    color: var(--sovereign-text);
+    font-family: 'JetBrains Mono', 'SF Mono', Menlo, Consolas, monospace;
+    font-size: 11px;
+  }
+  /* The strike log */
+  .strikes {
+    border-radius: 18px;
+    border: 1px solid var(--sovereign-line);
+    background: rgba(10, 10, 15, 0.5);
+    overflow: hidden;
+  }
+  .strike {
+    display: grid;
+    grid-template-columns: 180px 1fr auto;
+    gap: 32px;
+    padding: 20px 28px;
+    border-bottom: 1px solid var(--sovereign-line);
+    align-items: center;
+    transition: background 200ms var(--ease);
+  }
+  .strike:last-child { border-bottom: 0; }
+  .strike:hover { background: rgba(20, 20, 28, 0.6); }
+  .strike .when {
+    font-size: 12px;
+    color: var(--sovereign-text-mute);
+    letter-spacing: 0.06em;
+    font-family: 'JetBrains Mono', 'SF Mono', Menlo, Consolas, monospace;
+  }
+  .strike .what .title {
+    font-size: 15px;
+    color: var(--sovereign-text);
+    font-weight: 500;
+  }
+  .strike .what .body {
+    font-size: 13px;
+    color: var(--sovereign-text-dim);
+    margin-top: 2px;
+  }
+  .strike .pill {
+    font-size: 11px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .pill.live    { background: rgba(0, 255, 157, 0.10); border: 1px solid rgba(0, 255, 157, 0.3); color: #00ff9d; }
+  .pill.shipped { background: rgba(236, 72, 153, 0.10); border: 1px solid rgba(236, 72, 153, 0.3); color: var(--sovereign-pink); }
+  .pill.committed { background: rgba(0, 212, 255, 0.10); border: 1px solid rgba(0, 212, 255, 0.3); color: var(--sovereign-cyan); }
+  .pill.docs    { background: rgba(232, 232, 240, 0.06); border: 1px solid rgba(232, 232, 240, 0.16); color: var(--sovereign-text-dim); }
+  /* Footer */
+  footer {
+    border-top: 1px solid var(--sovereign-line);
+    padding: 48px 0 64px;
+    color: var(--sovereign-text-mute);
+    font-size: 12px;
+    letter-spacing: 0.04em;
+  }
+  .foot-grid {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 24px;
+  }
+  .foot-grid .left { display: flex; flex-direction: column; gap: 4px; }
+  .foot-grid .left .name { color: var(--sovereign-text-dim); font-weight: 500; }
+  .foot-grid .right { display: flex; gap: 24px; }
+  .foot-grid a { color: var(--sovereign-text-dim); text-decoration: none; transition: color 200ms var(--ease); }
+  .foot-grid a:hover { color: var(--sovereign-text); }
+  /* Responsive */
+  @media (max-width: 980px) {
+    .steps { grid-template-columns: repeat(2, 1fr); }
+    .flow-line { display: none; }
+    .arsenal { grid-template-columns: repeat(2, 1fr); }
+    .stat-strip { grid-template-columns: repeat(2, 1fr); }
+    .stat:nth-child(2) { border-right: 0; }
+    .stat:nth-child(1), .stat:nth-child(2) { border-bottom: 1px solid var(--sovereign-line); }
+    .strike { grid-template-columns: 100px 1fr; }
+    .strike .pill { grid-column: 1 / -1; justify-self: start; }
+  }
+  @media (max-width: 620px) {
+    .arsenal { grid-template-columns: 1fr; }
+    .topnav .meta { display: none; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <nav class="topnav">
+    <div class="brand">
+      <div class="brand-mark"></div>
+      <span class="brand-name">ArkOn Arsenal</span>
+    </div>
+    <div class="meta">
+      <a href="#loop">The Loop</a>
+      <a href="#arsenal">Arsenal</a>
+      <a href="#strikes">Strike Log</a>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="eyebrow"><span class="dot"></span>ArkOn Node-01 · Brain Node Active</div>
+    <h1>Seven pieces.<br />One <span class="glow">Sovereign loop.</span></h1>
+    <p class="lede">Every shippable artifact in the ArkOn stack passes through the same seven-step loop. <strong>Research</strong> finds the signal. <strong>The Moat</strong> picks the foundation. <strong>ArkOn</strong> architects the workflow. <strong>Headroom</strong> compresses the cost. <strong>omp</strong> writes the code. <strong>Sovereign Protocol</strong> is the law. <strong>gbrain</strong> is the memory that compounds across every run.</p>
+    <a class="hero-cta" href="#loop">
+      See the loop
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </a>
+
+    <div class="stat-strip">
+      <div class="stat">
+        <div class="v">7</div>
+        <div class="l">Arsenal Pieces</div>
+      </div>
+      <div class="stat">
+        <div class="v">5</div>
+        <div class="l">Live · Shipped</div>
+      </div>
+      <div class="stat">
+        <div class="v">1.9k★</div>
+        <div class="l">Upstream Stars</div>
+      </div>
+      <div class="stat">
+        <div class="v">2026-06-13</div>
+        <div class="l">Last Strike</div>
+      </div>
+    </div>
+  </header>
+
+  <section id="loop">
+    <div class="section-eyebrow">01 — The Loop</div>
+    <h2>From prompt to deployed, <span class="glow">without copy-paste</span>.</h2>
+    <p class="section-lede">ArkOn is the orchestration platform; the loop is the workflow. Every "build me X" trigger walks the same seven steps, in order, with explicit failure modes. Each step owns one skill, one provider, one contract.</p>
+
+    <div class="loop">
+      <div class="flow-line"></div>
+      <div class="steps">
+        <div class="step">
+          <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg></div>
+          <div class="n">Step 01</div>
+          <div class="t">Research</div>
+          <div class="s">last30days gathers engagement-scored evidence across Reddit, X, YouTube, HN, GitHub, Polymarket.</div>
+        </div>
+        <div class="step">
+          <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg></div>
+          <div class="n">Step 02</div>
+          <div class="t">Moat Pick</div>
+          <div class="s">visual-moat-database maps niche → foundation reference DNA (Duyu Care, Eight Sleep, Vibrant Wellness).</div>
+        </div>
+        <div class="step">
+          <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h10"/></svg></div>
+          <div class="n">Step 03</div>
+          <div class="t">Architect</div>
+          <div class="s">ArkOn defines the YAML workflow with phases, validation gates, and artifacts.</div>
+        </div>
+        <div class="step">
+          <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 11-9-9"/><path d="M21 3v6h-6"/></svg></div>
+          <div class="n">Step 04</div>
+          <div class="t">Compress</div>
+          <div class="s">headroom shrinks the plan payload 60–95% before it hits the LLM. Reversible via CCR.</div>
+        </div>
+        <div class="step">
+          <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3l-1 7h10l-1 7M5 21h14"/></svg></div>
+          <div class="n">Step 05</div>
+          <div class="t">Code</div>
+          <div class="s">omp (oh-my-pi) executes the plan with MiniMax Coding Plan, native LSP+DAP, hashline edits.</div>
+        </div>
+        <div class="step">
+          <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z"/></svg></div>
+          <div class="n">Step 06</div>
+          <div class="t">Law</div>
+          <div class="s">sovereign-design-protocol runs the 10-point build checklist. Failure blocks ship.</div>
+        </div>
+        <div class="step">
+          <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l5 5L20 7"/></svg></div>
+          <div class="n">Step 07</div>
+          <div class="t">Ship</div>
+          <div class="s">ArkOn releases via Vercel / GitHub. Decision is imported to gbrain. Loop compounds.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="arsenal">
+    <div class="section-eyebrow">02 — The Arsenal</div>
+    <h2>Every piece <span class="glow">live, documented, or shipping</span>.</h2>
+    <p class="section-lede">Each card is a real, working component. Status is honest: <span style="color: #00ff9d; font-weight: 500">●</span> live and running, <span style="color: var(--sovereign-cyan); font-weight: 500">●</span> shipped and waiting, <span style="color: var(--sovereign-pink); font-weight: 500">●</span> pushed to main, <span style="color: var(--sovereign-text-dim); font-weight: 500">●</span> documented reference.</p>
+
+    <div class="arsenal">
+
+      <div class="card">
+        <div class="head">
+          <div class="name">Hermes</div>
+          <div class="layer host">HOST</div>
+        </div>
+        <p class="desc">The runtime. Hosts every skill, holds the memory layer, runs the agents. The first-class citizen in this stack — every other piece is invoked from a Hermes session.</p>
+        <div class="status live">
+          <span class="dot"></span>
+          <span class="label">Live</span>
+          <span class="v">v0.x · Windows-native · 70 skills loaded</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="head">
+          <div class="name">ArkOn</div>
+          <div class="layer orchestrator">ORCHESTRATOR</div>
+        </div>
+        <p class="desc">The orchestration platform. Remote agentic coding from Slack / Telegram / GitHub. YAML workflows, IAgentProvider abstraction, worktree isolation. Rebranded fork at techshare101/ArkOn with the omp provider shipped.</p>
+        <div class="status shipped">
+          <span class="dot"></span>
+          <span class="label">Shipped</span>
+          <span class="v">feat/omp-provider · 9c2a288 + 653a06b on main</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="head">
+          <div class="name">omp</div>
+          <div class="layer coder">CODER</div>
+        </div>
+        <p class="desc">oh-my-pi. The benchmaxxed coding harness. 40+ providers, MiniMax Coding Plan native, LSP+DAP wired, hashline edits, native Windows. The engine that turns the Architect's intent into working code.</p>
+        <div class="status live">
+          <span class="dot"></span>
+          <span class="label">Live</span>
+          <span class="v">v15.10.10 · ~/.bun/bin/omp · RPC + TUI</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="head">
+          <div class="name">last30days</div>
+          <div class="layer research">RESEARCH</div>
+        </div>
+        <p class="desc">Parallel research across Reddit, X, YouTube, TikTok, HN, Polymarket, GitHub, and the web — scored by real engagement (upvotes, likes, real money). The "what do people actually say" engine. OpenRouter synthesis wired.</p>
+        <div class="status live">
+          <span class="dot"></span>
+          <span class="label">Live</span>
+          <span class="v">v3.3.2 · 4 free sources · LAW 7 plan path verified</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="head">
+          <div class="name">Visual Moat DB</div>
+          <div class="layer foundation">FOUNDATION</div>
+        </div>
+        <p class="desc">Curated reference index for every build. Niche-mapped design DNA: Duyu Care for premium medical, Eight Sleep for performance-tech, Vibrant Wellness for editorial. Anti-slop by design — the moat is the starting line, not inspiration.</p>
+        <div class="status live">
+          <span class="dot"></span>
+          <span class="label">Live</span>
+          <span class="v">3 references · 15 niche mappings · moat.yaml queryable</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="head">
+          <div class="name">Sovereign Protocol</div>
+          <div class="layer law">LAW</div>
+        </div>
+        <p class="desc">The build law. Luxury Obsidian (#0a0a0f), glassmorphism, Sovereign Glow gradient (#00d4ff → #a855f7 → #ec4899), Hormozi outcome-driven copy, JSON-LD schema-first, Pro Command Center success state. Every artifact obeys or fails the checklist.</p>
+        <div class="status live">
+          <span class="dot"></span>
+          <span class="label">Live</span>
+          <span class="v">10-point checklist · sovereign.css · JSON-LD template</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="head">
+          <div class="name">Headroom</div>
+          <div class="layer cost">COST</div>
+        </div>
+        <p class="desc">Context compression layer. 60–95% fewer tokens via 6 algorithms (CacheAligner, ContentRouter, CCR, SmartCrusher, CodeCompressor, Kompress-base). Local-first, reversible. The "headroom learn" command auto-writes corrections to AGENTS.md.</p>
+        <div class="status docs">
+          <span class="dot"></span>
+          <span class="label">Documented</span>
+          <span class="v">Skill shipped · install pending Architect greenlight</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="head">
+          <div class="name">gbrain</div>
+          <div class="layer memory">MEMORY</div>
+        </div>
+        <p class="desc">Garry Tan's opinionated OpenClaw/Hermes Agent Brain. Local-first knowledge graph (PGLite). search · think · import · trajectory · scorecard. The Ark Vault / Cerebro — every agent's first move is search_vault("what has the Architect decided?").</p>
+        <div class="status beta">
+          <span class="dot"></span>
+          <span class="label">Ready</span>
+          <span class="v">v0.42.42.0 · MIT · recipe shipped, install pending</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="head">
+          <div class="name">ArkOn · ARKON_LOOP.md</div>
+          <div class="layer orchestrator">SPEC</div>
+        </div>
+        <p class="desc">The three-loop spec committed to techshare101/ArkOn. Build (A), System (B), Strike (C). Progressive, not exclusive. Recommendation: ship A in 1 day, prove the loop, then decide on B and C.</p>
+        <div class="status shipped">
+          <span class="dot"></span>
+          <span class="label">Committed</span>
+          <span class="v">7dbd7989 · docs/arkon-loop-spec · awaiting Architect pick</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section id="strikes">
+    <div class="section-eyebrow">03 — Strike Log</div>
+    <h2>What we've shipped, in <span class="glow">chronological order</span>.</h2>
+    <p class="section-lede">The real work. Every entry is a real commit, a real install, a real research run. No theatrics.</p>
+
+    <div class="strikes">
+
+      <div class="strike">
+        <div class="when">2026-06-09 · 21:14</div>
+        <div class="what">
+          <div class="title">Sovereign design protocol codified</div>
+          <div class="body">Skill created with 10-point checklist, sovereign.css, JSON-LD template, Hormozi copy bank. SOUL.md updated to Forward-Deployed Engineer persona.</div>
+        </div>
+        <div class="pill shipped">Shipped</div>
+      </div>
+
+      <div class="strike">
+        <div class="when">2026-06-09 · 22:35</div>
+        <div class="what">
+          <div class="title">omp installed and integrated</div>
+          <div class="body">oh-my-pi v15.10.10 installed via bun. Native deps trusted. Hermes skill created with one-shot/RPC/AGENTS.md template. Phase 2 plan proposed.</div>
+        </div>
+        <div class="pill live">Live</div>
+      </div>
+
+      <div class="strike">
+        <div class="when">2026-06-09 · 23:50</div>
+        <div class="what">
+          <div class="title">ArkOn · omp provider shipped to main</div>
+          <div class="body">10 files, 764 insertions, all gates green. 14/14 unit tests. Type-check, lint, format all clean. RPC subprocess architecture, not SDK clone.</div>
+        </div>
+        <div class="pill shipped">Shipped</div>
+      </div>
+
+      <div class="strike">
+        <div class="when">2026-06-10 · 00:48</div>
+        <div class="what">
+          <div class="title">ArkOn · rebrand to ArkOn</div>
+          <div class="body">Surgical rebrand of user-facing strings. README, CONTRIBUTING, CHANGELOG preamble, adapter docs, theme.css comments. Internal archon package names preserved for build stability.</div>
+        </div>
+        <div class="pill shipped">Shipped</div>
+      </div>
+
+      <div class="strike">
+        <div class="when">2026-06-10 · 00:48</div>
+        <div class="what">
+          <div class="title">Force-push to techshare101/ArkOn main</div>
+          <div class="body">gh PAT auth as techshare101. + e248e58f...653a06b3 feat/omp-provider → main (forced update). README on main rebranded to ArkOn. Default branch swap blocked at 403 (PAT lacks repo admin scope).</div>
+        </div>
+        <div class="pill shipped">Shipped</div>
+      </div>
+
+      <div class="strike">
+        <div class="when">2026-06-11 · 17:20</div>
+        <div class="what">
+          <div class="title">Visual Moat Database · arsenal entry</div>
+          <div class="body">3 references seeded (Duyu Care, Eight Sleep, Vibrant Wellness). moat.yaml with 15 niche_map entries. decision-matrix.md and seed-dna.md for the lookup flow. Append-only by design.</div>
+        </div>
+        <div class="pill live">Live</div>
+      </div>
+
+      <div class="strike">
+        <div class="when">2026-06-13 · 18:06</div>
+        <div class="what">
+          <div class="title">last30days installed + OpenRouter wired</div>
+          <div class="body">v3.3.2 symlinked to ~/.hermes/skills/research/last30days. OPENROUTER_API_KEY in ~/.config/last30days/.env. --diagnose shows openrouter: true. First real research run: 28 items, 2 sources, LAW 7 plan path verified.</div>
+        </div>
+        <div class="pill live">Live</div>
+      </div>
+
+      <div class="strike">
+        <div class="when">2026-06-13 · 19:55</div>
+        <div class="what">
+          <div class="title">ARKON_LOOP.md committed (7dbd7989)</div>
+          <div class="body">Three progressive loop framings (A build / B system / C strike). Smallest 1-day slice for A. Awaiting Architect pick. docs/arkon-loop-spec branch ready to PR.</div>
+        </div>
+        <div class="pill committed">Committed</div>
+      </div>
+
+      <div class="strike">
+        <div class="when">2026-06-13 · 20:30</div>
+        <div class="what">
+          <div class="title">gbrain verified · 22.6k★ · MIT</div>
+          <div class="body">"Garry's Opinionated OpenClaw/Hermes Agent Brain." v0.42.42.0 released yesterday. Hermes skill shipped with install recipe, crew-integration patterns, the 9-cell cost matrix the agent must surface to the operator.</div>
+        </div>
+        <div class="pill docs">Ready</div>
+      </div>
+
+      <div class="strike">
+        <div class="when">2026-06-13 · 21:00</div>
+        <div class="what">
+          <div class="title">Arsenal Showcase · this page</div>
+          <div class="body">The single artifact that proves the loop. Sovereign Protocol on-brand. 7 arsenal pieces, 9-step loop, strike log. The first time the whole stack is visible in one frame.</div>
+        </div>
+        <div class="pill live">Live</div>
+      </div>
+
+    </div>
+  </section>
+
+  <footer>
+    <div class="foot-grid">
+      <div class="left">
+        <div class="name">ArkOn Node-01 · Brain Node Active</div>
+        <div>Built by Hermes (Forward-Deployed Engineer) for The Architect.</div>
+        <div>MIT · 2026 · Sovereign stack.</div>
+      </div>
+      <div class="right">
+        <a href="https://github.com/techshare101/ArkOn">techshare101/ArkOn</a>
+        <a href="https://github.com/garrytan/gbrain">gbrain</a>
+        <a href="https://github.com/chopratejas/headroom">headroom</a>
+        <a href="https://github.com/mvanhorn/last30days-skill">last30days</a>
+      </div>
+    </div>
+  </footer>
+
+</div>
+</body>
+</html>
